@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nghiên Cứu Trải Nghiệm Mua Sắm Trên Shopee</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        shopee: {
+                            DEFAULT: '#ee4d2d',
+                            light: '#ff7337',
+                            dark: '#d73211',
+                            bg: '#f5f5f5'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Chart.js for Data Visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .shopee-gradient {
+            background: linear-gradient(-180deg,#f53d2d,#f63);
+        }
+    </style>
+</head>
+<body class="font-sans bg-gray-50 text-gray-800 antialiased selection:bg-shopee selection:text-white">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md shadow-sm transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center cursor-pointer" onclick="window.scrollTo(0,0)">
+                    <div class="w-10 h-10 bg-shopee text-white rounded-lg flex items-center justify-center text-xl font-bold mr-3 shadow-lg shadow-shopee/30">
+                        <i class="fa-solid fa-bag-shopping"></i>
+                    </div>
+                    <span class="font-bold text-xl tracking-tight text-gray-900">Research<span class="text-shopee">Group</span></span>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="#tong-quan" class="text-gray-600 hover:text-shopee font-medium transition-colors">Tổng Quan</a>
+                    <a href="#muc-tieu" class="text-gray-600 hover:text-shopee font-medium transition-colors">Mục Tiêu</a>
+                    <a href="#phuong-phap" class="text-gray-600 hover:text-shopee font-medium transition-colors">Phương Pháp</a>
+                    <a href="#ket-qua" class="text-gray-600 hover:text-shopee font-medium transition-colors">Kết Quả</a>
+                    <a href="#thanh-vien" class="px-5 py-2.5 bg-shopee text-white rounded-full font-medium hover:bg-shopee-dark transition-all shadow-md shadow-shopee/20 transform hover:-translate-y-0.5">Nhóm Tác Giả</a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-gray-600 hover:text-shopee focus:outline-none text-2xl">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 absolute w-full shadow-lg">
+            <div class="px-4 pt-2 pb-6 space-y-2">
+                <a href="#tong-quan" class="block px-3 py-3 rounded-md text-base font-medium text-gray-700 hover:text-shopee hover:bg-gray-50">Tổng Quan</a>
+                <a href="#muc-tieu" class="block px-3 py-3 rounded-md text-base font-medium text-gray-700 hover:text-shopee hover:bg-gray-50">Mục Tiêu</a>
+                <a href="#phuong-phap" class="block px-3 py-3 rounded-md text-base font-medium text-gray-700 hover:text-shopee hover:bg-gray-50">Phương Pháp</a>
+                <a href="#ket-qua" class="block px-3 py-3 rounded-md text-base font-medium text-gray-700 hover:text-shopee hover:bg-gray-50">Kết Quả</a>
+                <a href="#thanh-vien" class="block px-3 py-3 rounded-md text-base font-medium text-shopee bg-orange-50 mt-4 text-center">Thành Viên Nhóm</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden shopee-gradient">
+        <!-- Abstract Background Shapes -->
+        <div class="absolute top-0 left-0 w-full h-full overflow-hidden opacity-20 pointer-events-none">
+            <div class="absolute -top-24 -left-24 w-96 h-96 rounded-full bg-white blur-3xl"></div>
+            <div class="absolute top-1/2 right-0 w-80 h-80 rounded-full bg-yellow-300 blur-3xl"></div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <div class="inline-flex items-center px-4 py-2 rounded-full bg-white/20 text-white backdrop-blur-sm text-sm font-medium mb-6 border border-white/30 fade-in">
+                <span class="flex h-2 w-2 rounded-full bg-green-400 mr-2 animate-pulse"></span>
+                Báo cáo Nghiên cứu Khoa học 2024
+            </div>
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-6 fade-in" style="transition-delay: 100ms;">
+                Đánh Giá Trải Nghiệm Mua Sắm <br class="hidden md:block" />
+                Của Khách Hàng Trên <span class="text-yellow-300 underline decoration-4 underline-offset-8">Shopee</span>
+            </h1>
+            <p class="mt-4 text-xl text-white/90 max-w-3xl mx-auto font-light mb-10 fade-in" style="transition-delay: 200ms;">
+                Nghiên cứu đi sâu vào phân tích hành vi, mức độ hài lòng và các yếu tố quyết định đến trải nghiệm mua sắm của người dùng tại Việt Nam trên nền tảng thương mại điện tử hàng đầu.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-6 fade-in" style="transition-delay: 300ms;">
+                <a href="#tong-quan" class="px-8 py-4 bg-white text-shopee rounded-full font-bold text-lg hover:bg-gray-100 transition-all shadow-xl hover:-translate-y-1 w-full sm:w-auto">
+                    Khám Phá Kết Quả
+                </a>
+                <a href="#phuong-phap" class="px-8 py-4 bg-transparent border-2 border-white text-white rounded-full font-bold text-lg hover:bg-white/10 transition-all w-full sm:w-auto">
+                    <i class="fa-solid fa-microscope mr-2"></i> Cách Thức Nghiên Cứu
+                </a>
+            </div>
+        </div>
+        
+        <!-- Wave effect bottom -->
+        <div class="absolute bottom-0 left-0 w-full overflow-hidden leading-none z-0 rotate-180">
+            <svg class="relative block w-full h-12 md:h-24" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" fill="#f9fafb"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Tổng quan Section -->
+    <section id="tong-quan" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="fade-in">
+                    <h2 class="text-sm font-bold text-shopee uppercase tracking-wider mb-2">Vấn Đề Đặt Ra</h2>
+                    <h3 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">Tại sao chọn Shopee?</h3>
+                    <div class="space-y-4 text-gray-600 text-lg">
+                        <p>
+                            Shopee hiện là sàn thương mại điện tử có thị phần lớn nhất tại Việt Nam. Việc hiểu rõ <strong>trải nghiệm khách hàng (Customer Experience - CX)</strong> trên nền tảng này không chỉ giúp người bán tối ưu hóa chiến lược mà còn cung cấp góc nhìn học thuật về hành vi người tiêu dùng số.
+                        </p>
+                        <p>
+                            Mặc dù mang lại sự tiện lợi, người dùng vẫn đối mặt với nhiều thách thức như: chất lượng hàng hóa không đồng đều, quá tải thông tin, quy trình đổi trả phức tạp, và vấn nạn hàng giả.
+                        </p>
+                        <div class="bg-orange-50 border-l-4 border-shopee p-4 mt-6 rounded-r-lg text-gray-800 font-medium italic">
+                            "Nghiên cứu này nhằm mục đích lấp đầy khoảng trống về đánh giá toàn diện hành vi mua sắm trực tuyến sau đại dịch tại thị trường Việt Nam."
+                        </div>
+                    </div>
+                </div>
+                <div class="relative fade-in" style="transition-delay: 200ms;">
+                    <!-- Decorative image placeholder -->
+                    <div class="relative rounded-2xl overflow-hidden shadow-2xl bg-white p-2">
+                        <img src="https://placehold.co/800x600/ffeee6/ee4d2d?text=Shopee+App+Interface&font=Montserrat" alt="Shopee Mobile App Mockup" class="w-full h-auto rounded-xl border border-gray-100">
+                        
+                        <!-- Floating badge -->
+                        <div class="absolute -bottom-6 -left-6 bg-white p-4 rounded-xl shadow-xl flex items-center gap-4 animate-bounce" style="animation-duration: 3s;">
+                            <div class="bg-green-100 text-green-600 p-3 rounded-full text-xl">
+                                <i class="fa-solid fa-arrow-trend-up"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-gray-500 font-bold uppercase">Thị Phần 2023</p>
+                                <p class="text-xl font-black text-gray-900">> 63%</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mục Tiêu Section -->
+    <section id="muc-tieu" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 fade-in">
+                <h2 class="text-sm font-bold text-shopee uppercase tracking-wider mb-2">Định Hướng</h2>
+                <h3 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Mục Tiêu Nghiên Cứu</h3>
+                <p class="text-lg text-gray-600">Chúng tôi đặt ra 3 mục tiêu cốt lõi để làm rõ bức tranh trải nghiệm của người dùng trên Shopee.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Card 1 -->
+                <div class="bg-gray-50 rounded-2xl p-8 hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border border-gray-100 group fade-in">
+                    <div class="w-14 h-14 bg-orange-100 text-shopee rounded-xl flex items-center justify-center text-2xl mb-6 group-hover:bg-shopee group-hover:text-white transition-colors">
+                        <i class="fa-solid fa-magnifying-glass-chart"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-gray-900 mb-3">Đánh giá thực trạng</h4>
+                    <p class="text-gray-600 leading-relaxed">
+                        Đo lường mức độ hài lòng tổng thể của người dùng về giao diện UI/UX, dịch vụ hỗ trợ và quy trình thanh toán, vận chuyển.
+                    </p>
+                </div>
+                
+                <!-- Card 2 -->
+                <div class="bg-gray-50 rounded-2xl p-8 hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border border-gray-100 group fade-in" style="transition-delay: 150ms;">
+                    <div class="w-14 h-14 bg-orange-100 text-shopee rounded-xl flex items-center justify-center text-2xl mb-6 group-hover:bg-shopee group-hover:text-white transition-colors">
+                        <i class="fa-solid fa-scale-balanced"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-gray-900 mb-3">Xác định các yếu tố</h4>
+                    <p class="text-gray-600 leading-relaxed">
+                        Phân tích và xếp hạng các yếu tố (giá cả, khuyến mãi, đánh giá người dùng khác, uy tín shop) tác động mạnh nhất đến quyết định chốt đơn.
+                    </p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="bg-gray-50 rounded-2xl p-8 hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border border-gray-100 group fade-in" style="transition-delay: 300ms;">
+                    <div class="w-14 h-14 bg-orange-100 text-shopee rounded-xl flex items-center justify-center text-2xl mb-6 group-hover:bg-shopee group-hover:text-white transition-colors">
+                        <i class="fa-solid fa-lightbulb"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-gray-900 mb-3">Đề xuất giải pháp</h4>
+                    <p class="text-gray-600 leading-relaxed">
+                        Dựa trên dữ liệu thu thập, đưa ra các kiến nghị cho Shopee và Nhà bán hàng nhằm cải thiện dịch vụ và giữ chân khách hàng.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Phương Pháp Section -->
+    <section id="phuong-phap" class="py-20 bg-gray-900 text-white relative overflow-hidden">
+        <!-- Background pattern -->
+        <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(#ee4d2d 1px, transparent 1px); background-size: 30px 30px;"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="flex flex-col lg:flex-row gap-16 items-center">
+                <div class="w-full lg:w-1/3 fade-in">
+                    <h2 class="text-sm font-bold text-shopee-light uppercase tracking-wider mb-2">Cách Thức Tiến Hành</h2>
+                    <h3 class="text-3xl md:text-4xl font-bold mb-6">Phương Pháp & Mẫu Nghiên Cứu</h3>
+                    <p class="text-gray-400 text-lg mb-8">Nghiên cứu sử dụng kết hợp các phương pháp nghiên cứu định tính và định lượng để đảm bảo tính khách quan và độ tin cậy của dữ liệu.</p>
+                    
+                    <div class="bg-white/10 rounded-xl p-6 border border-white/10 backdrop-blur-sm">
+                        <div class="flex items-center justify-between border-b border-white/10 pb-4 mb-4">
+                            <span class="text-gray-300">Tổng mẫu khảo sát</span>
+                            <span class="text-2xl font-bold text-shopee-light">524</span>
+                        </div>
+                        <div class="flex items-center justify-between border-b border-white/10 pb-4 mb-4">
+                            <span class="text-gray-300">Độ tuổi chủ yếu</span>
+                            <span class="text-xl font-bold text-white">18 - 25 (Gen Z)</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-300">Khu vực</span>
+                            <span class="text-xl font-bold text-white">Toàn quốc</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w-full lg:w-2/3 grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Step 1 -->
+                    <div class="bg-gray-800 p-6 rounded-2xl border border-gray-700 fade-in relative overflow-hidden group">
+                        <div class="absolute top-0 right-0 w-24 h-24 bg-shopee/20 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-150"></div>
+                        <div class="text-shopee-light text-3xl mb-4"><i class="fa-solid fa-list-check"></i></div>
+                        <h4 class="text-xl font-bold mb-2">1. Khảo sát định lượng</h4>
+                        <p class="text-gray-400 text-sm">Phân phối bảng hỏi trực tuyến (Google Forms) với thang đo Likert 5 mức độ để đo lường hành vi và thái độ.</p>
+                    </div>
+                    <!-- Step 2 -->
+                    <div class="bg-gray-800 p-6 rounded-2xl border border-gray-700 fade-in relative overflow-hidden group" style="transition-delay: 150ms;">
+                        <div class="absolute top-0 right-0 w-24 h-24 bg-blue-500/20 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-150"></div>
+                        <div class="text-blue-400 text-3xl mb-4"><i class="fa-solid fa-comments"></i></div>
+                        <h4 class="text-xl font-bold mb-2">2. Phỏng vấn sâu</h4>
+                        <p class="text-gray-400 text-sm">Thực hiện phỏng vấn 1-1 với 20 người dùng thường xuyên để lấy insight chi tiết về cảm nhận trải nghiệm.</p>
+                    </div>
+                    <!-- Step 3 -->
+                    <div class="bg-gray-800 p-6 rounded-2xl border border-gray-700 fade-in relative overflow-hidden group" style="transition-delay: 300ms;">
+                        <div class="absolute top-0 right-0 w-24 h-24 bg-purple-500/20 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-150"></div>
+                        <div class="text-purple-400 text-3xl mb-4"><i class="fa-solid fa-chart-pie"></i></div>
+                        <h4 class="text-xl font-bold mb-2">3. Xử lý dữ liệu</h4>
+                        <p class="text-gray-400 text-sm">Sử dụng phần mềm SPSS để kiểm định độ tin cậy Cronbach's Alpha, phân tích nhân tố khám phá EFA và hồi quy.</p>
+                    </div>
+                    <!-- Step 4 -->
+                    <div class="bg-gray-800 p-6 rounded-2xl border border-gray-700 fade-in relative overflow-hidden group" style="transition-delay: 450ms;">
+                        <div class="absolute top-0 right-0 w-24 h-24 bg-green-500/20 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-150"></div>
+                        <div class="text-green-400 text-3xl mb-4"><i class="fa-solid fa-file-contract"></i></div>
+                        <h4 class="text-xl font-bold mb-2">4. Báo cáo & Kết luận</h4>
+                        <p class="text-gray-400 text-sm">Tổng hợp kết quả, so sánh với các lý thuyết hiện hành và đưa ra giải pháp thực tiễn.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Kết Quả Nghiên Cứu Section (Chart.js) -->
+    <section id="ket-qua" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 fade-in">
+                <h2 class="text-sm font-bold text-shopee uppercase tracking-wider mb-2">Dữ Liệu Thống Kê</h2>
+                <h3 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Kết Quả Nổi Bật</h3>
+                <p class="text-lg text-gray-600">Những phát hiện quan trọng từ dữ liệu thu thập được trong quá trình nghiên cứu.</p>
+            </div>
+
+            <!-- Charts Container -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
+                <!-- Chart 1: Factors -->
+                <div class="bg-white p-6 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 fade-in">
+                    <h4 class="text-xl font-bold text-center text-gray-800 mb-6">Mức Độ Tác Động Của Các Yếu Tố (Hệ số Beta)</h4>
+                    <div class="relative h-72">
+                        <canvas id="factorsChart"></canvas>
+                    </div>
+                    <p class="text-sm text-center text-gray-500 mt-4 italic">* Yếu tố "Giá cả & Khuyến mãi" đóng vai trò quan trọng nhất trong việc giữ chân khách hàng.</p>
+                </div>
+
+                <!-- Chart 2: Satisfaction -->
+                <div class="bg-white p-6 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 fade-in" style="transition-delay: 200ms;">
+                    <h4 class="text-xl font-bold text-center text-gray-800 mb-6">Mức Độ Hài Lòng Tổng Thể</h4>
+                    <div class="relative h-72 flex justify-center">
+                        <canvas id="satisfactionChart"></canvas>
+                    </div>
+                    <p class="text-sm text-center text-gray-500 mt-4 italic">* Đa số người dùng cảm thấy hài lòng, tuy nhiên vẫn còn 12% cảm thấy trải nghiệm chưa tốt.</p>
+                </div>
+            </div>
+
+            <!-- Key Findings Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-red-50 p-6 rounded-xl border border-red-100 fade-in">
+                    <div class="text-red-500 text-3xl mb-3"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                    <h5 class="font-bold text-gray-900 mb-2">Điểm yếu (Pain points)</h5>
+                    <ul class="list-disc list-inside text-gray-700 text-sm space-y-1">
+                        <li>Phí vận chuyển ngày càng cao</li>
+                        <li>Quy trình đổi/trả hàng rườm rà</li>
+                        <li>Nhiều đánh giá ảo (fake reviews)</li>
+                    </ul>
+                </div>
+                
+                <div class="bg-green-50 p-6 rounded-xl border border-green-100 fade-in" style="transition-delay: 150ms;">
+                    <div class="text-green-500 text-3xl mb-3"><i class="fa-solid fa-heart-circle-check"></i></div>
+                    <h5 class="font-bold text-gray-900 mb-2">Điểm mạnh (Strengths)</h5>
+                    <ul class="list-disc list-inside text-gray-700 text-sm space-y-1">
+                        <li>Sự đa dạng của hàng hóa</li>
+                        <li>Livestream (Shopee Live) thu hút</li>
+                        <li>Mã giảm giá Flash Sale hấp dẫn</li>
+                    </ul>
+                </div>
+
+                <div class="bg-blue-50 p-6 rounded-xl border border-blue-100 fade-in" style="transition-delay: 300ms;">
+                    <div class="text-blue-500 text-3xl mb-3"><i class="fa-solid fa-handshake-angle"></i></div>
+                    <h5 class="font-bold text-gray-900 mb-2">Đề xuất (Recommendations)</h5>
+                    <ul class="list-disc list-inside text-gray-700 text-sm space-y-1">
+                        <li>Kiểm duyệt chặt chẽ review sản phẩm</li>
+                        <li>Tối ưu hóa thuật toán tìm kiếm</li>
+                        <li>Cải thiện CSKH giải quyết khiếu nại</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Thành Viên Nhóm Section -->
+    <section id="thanh-vien" class="py-20 bg-gray-50 border-t border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 fade-in">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Đội Ngũ Nghiên Cứu</h2>
+                <p class="text-lg text-gray-600">Những thành viên đã cùng nhau thực hiện dự án này.</p>
+            </div>
+
+            <!-- Group members grid (Mock data - Can be customized) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Member 1 -->
+                <div class="bg-white rounded-2xl p-6 text-center shadow-sm hover:shadow-lg transition-shadow border border-gray-100 fade-in">
+                    <img src="https://placehold.co/200x200/ffeadc/ee4d2d?text=Mem+1&font=Montserrat" alt="Member 1" class="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-orange-50 object-cover">
+                    <h3 class="font-bold text-lg text-gray-900">Nguyễn Văn A</h3>
+                    <p class="text-shopee text-sm font-medium mb-3">Nhóm trưởng</p>
+                    <p class="text-gray-500 text-xs">Phụ trách phân tích dữ liệu SPSS & Xây dựng bảng hỏi.</p>
+                </div>
+
+                <!-- Member 2 -->
+                <div class="bg-white rounded-2xl p-6 text-center shadow-sm hover:shadow-lg transition-shadow border border-gray-100 fade-in" style="transition-delay: 100ms;">
+                    <img src="https://placehold.co/200x200/ffeadc/ee4d2d?text=Mem+2&font=Montserrat" alt="Member 2" class="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-orange-50 object-cover">
+                    <h3 class="font-bold text-lg text-gray-900">Trần Thị B</h3>
+                    <p class="text-shopee text-sm font-medium mb-3">Thành viên</p>
+                    <p class="text-gray-500 text-xs">Phụ trách tổng hợp cơ sở lý thuyết và viết báo cáo.</p>
+                </div>
+
+                <!-- Member 3 -->
+                <div class="bg-white rounded-2xl p-6 text-center shadow-sm hover:shadow-lg transition-shadow border border-gray-100 fade-in" style="transition-delay: 200ms;">
+                    <img src="https://placehold.co/200x200/ffeadc/ee4d2d?text=Mem+3&font=Montserrat" alt="Member 3" class="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-orange-50 object-cover">
+                    <h3 class="font-bold text-lg text-gray-900">Lê Văn C</h3>
+                    <p class="text-shopee text-sm font-medium mb-3">Thành viên</p>
+                    <p class="text-gray-500 text-xs">Tiến hành phỏng vấn sâu và thu thập dữ liệu sơ cấp.</p>
+                </div>
+
+                <!-- Member 4 -->
+                <div class="bg-white rounded-2xl p-6 text-center shadow-sm hover:shadow-lg transition-shadow border border-gray-100 fade-in" style="transition-delay: 300ms;">
+                    <img src="https://placehold.co/200x200/ffeadc/ee4d2d?text=Mem+4&font=Montserrat" alt="Member 4" class="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-orange-50 object-cover">
+                    <h3 class="font-bold text-lg text-gray-900">Phạm Thị D</h3>
+                    <p class="text-shopee text-sm font-medium mb-3">Thành viên</p>
+                    <p class="text-gray-500 text-xs">Thiết kế slide thuyết trình và chuẩn bị tài liệu minh họa.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white pt-16 pb-8 border-t-4 border-shopee">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <div class="w-8 h-8 bg-shopee text-white rounded flex items-center justify-center font-bold mr-2">
+                            <i class="fa-solid fa-bag-shopping"></i>
+                        </div>
+                        <span class="font-bold text-xl tracking-tight">Research<span class="text-shopee">Group</span></span>
+                    </div>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                        Dự án Nghiên cứu Khoa học Sinh viên 2024.<br>
+                        Tập trung vào phân tích trải nghiệm người dùng trong lĩnh vực Thương mại điện tử.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-shopee hover:text-white transition-colors"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-shopee hover:text-white transition-colors"><i class="fa-solid fa-envelope"></i></a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-lg mb-4 text-white">Liên kết nhanh</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#tong-quan" class="hover:text-shopee transition-colors">Tổng quan đề tài</a></li>
+                        <li><a href="#muc-tieu" class="hover:text-shopee transition-colors">Mục tiêu nghiên cứu</a></li>
+                        <li><a href="#phuong-phap" class="hover:text-shopee transition-colors">Phương pháp</a></li>
+                        <li><a href="#ket-qua" class="hover:text-shopee transition-colors">Kết quả nổi bật</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-lg mb-4 text-white">Giảng viên hướng dẫn</h4>
+                    <div class="bg-gray-800 p-4 rounded-lg">
+                        <p class="font-bold text-shopee-light mb-1">ThS. Nguyễn Giảng Viên</p>
+                        <p class="text-sm text-gray-400 mb-2">Khoa Quản trị Kinh doanh</p>
+                        <p class="text-xs text-gray-500 italic">"Chúng em xin gửi lời cảm ơn sâu sắc đến Thầy/Cô đã hướng dẫn tận tình trong suốt quá trình thực hiện đề tài."</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-500 text-sm">
+                <p>&copy; 2024 Nhóm Nghiên Cứu. Đây là một website giả lập phục vụ mục đích học tập và báo cáo.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // 1. Mobile Menu Toggle
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+
+        // Close mobile menu when a link is clicked
+        menu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                menu.classList.add('hidden');
+            });
+        });
+
+        // 2. Navbar Scroll Effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 20) {
+                navbar.classList.add('shadow-md');
+                navbar.classList.replace('bg-white/90', 'bg-white');
+            } else {
+                navbar.classList.remove('shadow-md');
+                navbar.classList.replace('bg-white', 'bg-white/90');
+            }
+        });
+
+        // 3. Fade-in Animation on Scroll
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target); // Run once
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach((el) => {
+            observer.observe(el);
+        });
+
+        // 4. Initialize Chart.js
+        window.addEventListener('load', function() {
+            // Chart 1: Bar Chart (Factors)
+            const ctxFactors = document.getElementById('factorsChart').getContext('2d');
+            new Chart(ctxFactors, {
+                type: 'bar',
+                data: {
+                    labels: ['Giá & Khuyến Mãi', 'Chất lượng Sản phẩm', 'Sự tiện lợi UI/UX', 'Dịch vụ Vận chuyển', 'Đánh giá/Uy tín Shop'],
+                    datasets: [{
+                        label: 'Hệ số tác động (Beta)',
+                        data: [0.345, 0.280, 0.195, 0.120, 0.060],
+                        backgroundColor: [
+                            'rgba(238, 77, 45, 0.8)', // Shopee orange
+                            'rgba(246, 164, 146, 0.8)',
+                            'rgba(54, 162, 235, 0.8)',
+                            'rgba(255, 206, 86, 0.8)',
+                            'rgba(75, 192, 192, 0.8)'
+                        ],
+                        borderColor: [
+                            'rgba(238, 77, 45, 1)',
+                            'rgba(246, 164, 146, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)'
+                        ],
+                        borderWidth: 1,
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return 'Hệ số: ' + context.parsed.y;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: { borderDash: [2, 4] }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: {
+                                maxRotation: 45,
+                                minRotation: 45
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Chart 2: Doughnut Chart (Satisfaction)
+            const ctxSatisfaction = document.getElementById('satisfactionChart').getContext('2d');
+            new Chart(ctxSatisfaction, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Rất Hài Lòng', 'Hài Lòng', 'Bình Thường', 'Không Hài Lòng'],
+                    datasets: [{
+                        data: [28, 45, 15, 12],
+                        backgroundColor: [
+                            '#ee4d2d', // Shopee Orange
+                            '#f6a492', // Light Orange
+                            '#ffce56', // Yellow
+                            '#94a3b8'  // Gray
+                        ],
+                        borderWidth: 2,
+                        borderColor: '#ffffff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '65%',
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 20,
+                                usePointStyle: true
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return ' ' + context.label + ': ' + context.parsed + '%';
+                                }
+                            }
+                        }
+                    }
+                },
+                plugins: [{
+                    id: 'textCenter',
+                    beforeDraw: function(chart) {
+                        var width = chart.width,
+                            height = chart.height,
+                            ctx = chart.ctx;
+
+                        ctx.restore();
+                        var fontSize = (height / 114).toFixed(2);
+                        ctx.font = "bold " + fontSize + "em Inter, sans-serif";
+                        ctx.textBaseline = "middle";
+                        ctx.fillStyle = "#333";
+
+                        var text = "73%",
+                            textX = Math.round((width - ctx.measureText(text).width) / 2),
+                            textY = height / 2 - 15;
+
+                        ctx.fillText(text, textX, textY);
+                        
+                        var subFontSize = (height / 250).toFixed(2);
+                        ctx.font = "normal " + subFontSize + "em Inter, sans-serif";
+                        ctx.fillStyle = "#666";
+                        var subText = "Hài lòng",
+                            subTextX = Math.round((width - ctx.measureText(subText).width) / 2),
+                            subTextY = height / 2 + 10;
+                            
+                        ctx.fillText(subText, subTextX, subTextY);
+                        ctx.save();
+                    }
+                }]
+            });
+        });
+    </script>
+</body>
+</html>
